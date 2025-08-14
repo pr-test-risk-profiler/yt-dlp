@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Required for git history analysis
+        uses: actions/checkout@v4
       - name: Run PR Test Risk Profiler
         uses: pr-test-risk-profiler/pr-test-risk-profiler@v1.3
         with:
