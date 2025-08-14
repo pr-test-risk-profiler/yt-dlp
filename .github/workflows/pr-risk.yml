@@ -21,8 +21,10 @@ jobs:
       # Fetch all history for all tags and branches
       - name: Fetch Git History
         run: |
-          git fetch --prune --unshallow
+          git config --global --add safe.directory '*'
+          git fetch --prune
           git fetch origin +refs/heads/*:refs/remotes/origin/*
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-head
           
       - name: Run PR Test Risk Profiler
         uses: pr-test-risk-profiler/pr-test-risk-profiler@v1.3
