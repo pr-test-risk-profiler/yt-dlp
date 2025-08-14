@@ -27,6 +27,7 @@ def parse_patched_options(opts):
         return yt_dlp.parse_options(opts)
     finally:
         yt_dlp.options.create_parser = create_parser
+        print("Hello")
 
 
 default_opts = parse_patched_options([]).ydl_opts
