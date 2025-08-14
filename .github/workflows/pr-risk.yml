@@ -11,8 +11,12 @@ jobs:
   risk-profile:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # Checkout code with full git history
+      - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # This ensures full git history is available
+          ref: ${{ github.event.pull_request.head.sha }}  # Checkout the PR branch
       - name: Run PR Test Risk Profiler
         uses: pr-test-risk-profiler/pr-test-risk-profiler@v1.3
         with:
