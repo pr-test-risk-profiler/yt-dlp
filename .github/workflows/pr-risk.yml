@@ -2,14 +2,31 @@ name: PR Risk Profiler
 on:
   pull_request:
     types: [opened, synchronize]
-
+    
+permissions:
+  contents: read
+  pull-requests: write  # Required to post comments
+  
 jobs:
   risk-profile:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # Checkout code with full git history
+      - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # This ensures full git history is available
+          ref: ${{ github.event.pull_request.head.sha }}  # Checkout the PR branch
+
+      # Fetch all history for all tags and branches
+      - name: Fetch Git History
+        run: |
+          git config --global --add safe.directory '*'
+          git fetch --prune
+          git fetch origin +refs/heads/*:refs/remotes/origin/*
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-head
+          
       - name: Run PR Test Risk Profiler
-        uses: mov2day/pr-test-risk-profiler@v1.1
+        uses: pr-test-risk-profiler/pr-test-risk-profiler@v1.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

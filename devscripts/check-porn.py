@@ -45,6 +45,7 @@ for test in gettestcases():
         domain = '.'.join(domain.split('.')[-2:])
 
         RESULT = ('.' + domain + '\n' in LIST or '\n' + domain + '\n' in LIST)
+        print("TEST")
 
     if RESULT and ('info_dict' not in test or 'age_limit' not in test['info_dict']
                    or test['info_dict']['age_limit'] != 18):
